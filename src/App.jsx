@@ -1,45 +1,51 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from 'react';
+import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './App.css';
+import Topbar from './components/Topbar';
+import Sidebar from './components/Sidebar';
+import Home from './pages/Home';
+import UserList from './pages/UserList';
+import User from './pages/User';
+import NewUser from './pages/NewUser';
+import ProductList from './pages/ProductList';
+import Product from './pages/Product';
+import NewProduct from './pages/NewProduct';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <Router>
+      <Topbar />
+      <div className='flex mt-[10px]'>
+        <Sidebar />
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/users'>
+            <UserList />
+          </Route>
+          <Route path='/user/:userId'>
+            <User />
+          </Route>
+          <Route path='/newUser'>
+            <NewUser />
+          </Route>
+          <Route path='/products'>
+            <ProductList />
+          </Route>
+          <Route path='/product/:productId'>
+            <Product />
+          </Route>
+          <Route path='/newproduct'>
+            <NewProduct />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
