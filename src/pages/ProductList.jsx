@@ -1,20 +1,29 @@
 import { DataGrid } from '@mui/x-data-grid';
+
 import { DeleteOutline } from '@mui/icons-material';
-import { productRows } from '../dummyData';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct, getProducts } from '../redux/apiCalls';
+import { Box } from '@mui/material';
 
 const ProductList = () => {
-  const [data, setData] = useState(productRows);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    setIsFetching(true);
+    getProducts(dispatch).then(setIsFetching(false));
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    deleteProduct(id, dispatch);
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'product',
+      field: 'title',
       headerName: 'Product',
       width: 200,
       renderCell: (params) => {
@@ -25,37 +34,33 @@ const ProductList = () => {
               src={params.row.img}
               alt=''
             />
-            {params.row.name}
+            {params.row.title}
           </div>
         );
       },
     },
-    { field: 'stock', headerName: 'Stock', width: 200 },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 120,
-    },
+    { field: 'inStock', headerName: 'Stock', width: 200 },
     {
       field: 'price',
       headerName: 'Price',
       width: 160,
     },
+
     {
       field: 'action',
       headerName: 'Action',
-      width: 150,
+      width: 160,
       renderCell: (params) => {
         return (
           <>
-            <Link to={'/product/' + params.row.id}>
-              <button className='border-none rounded-[10px] p-[5px_10px] bg-[#3bb077] text-white cursor-pointer mr-5'>
+            <Link to={'/product/' + params.row._id}>
+              <button className='border-none rounded-[10px] p-[5px_10px] bg-green-600 hover:bg-green-500 text-white cursor-pointer mr-5'>
                 Edit
               </button>
             </Link>
             <DeleteOutline
               className='fill-white cursor-pointer'
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );
@@ -64,15 +69,29 @@ const ProductList = () => {
   ];
 
   return (
-    <div className='flex-[4_4_0%]'>
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={8}
-        checkboxSelection
-      />
-    </div>
+    <>
+      <div className='flex-[4_4_0%] my-2 mr-6'>
+        <div className='flex items-center justify-between my-4'>
+          <h1 className='font-semibold text-lg'>Product</h1>
+          <Link to='/newproduct'>
+            <button className='w-20 border-none p-[5px] bg-green-600 text-white ronuded-[5px] text-base cursor-pointer'>
+              Create
+            </button>
+          </Link>
+        </div>
+        <Box sx={{ height: 500, width: '100%' }}>
+          <DataGrid
+            rows={products}
+            disableSelectionOnClick
+            columns={columns}
+            getRowId={(row) => row._id}
+            pageSize={8}
+            checkboxSelection
+            rowsPerPageOptions={[8]}
+          />
+        </Box>
+      </div>
+    </>
   );
 };
 

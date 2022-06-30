@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { userRequest } from '../requestMethods';
 import { Box } from '@mui/material';
 
-const UserList = () => {
+const TransactionList = () => {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
 
@@ -15,9 +15,9 @@ const UserList = () => {
     const getUsers = async () => {
       setIsFetching(true);
       await userRequest
-        .get('/users/')
+        .get('/orders/')
         .then((res) => {
-          setData(res.data.data);
+          setData(res.data);
           setIsFetching(false);
           // console.log(res.data.data);
         })
@@ -28,6 +28,8 @@ const UserList = () => {
     };
     getUsers();
   }, []);
+
+  const handleClick = () => {};
 
   const handleDelete = async (id) => {
     await userRequest
@@ -41,11 +43,13 @@ const UserList = () => {
   const columns = [
     { field: '_id', headerName: 'ID', width: 220 },
     {
-      field: 'username',
-      headerName: 'User',
+      field: 'userId',
+      headerName: 'Customer ID',
       width: 200,
     },
-    { field: 'email', headerName: 'Email', width: 200 },
+    { field: 'amount', headerName: 'Amount', width: 200 },
+    { field: 'address', headerName: 'Address', width: 200 },
+    { field: 'status', headerName: 'Status', width: 200 },
 
     {
       field: 'action',
@@ -55,14 +59,14 @@ const UserList = () => {
         return (
           <>
             <Link to={'/user/' + params.row._id}>
-              <button className='border-none rounded-[10px] px-[5px] py-[10px] bg-[#3bb077] text-white cursor-pointer mr-5'>
+              <button className='border-none rounded-md px-2 py-4 bg-green-600 text-white cursor-pointer mr-5'>
                 Edit
               </button>
             </Link>
-            <DeleteOutline
+            {/* <DeleteOutline
               className='fill-red-600'
               onClick={() => handleDelete(params.row._id)}
-            />
+            /> */}
           </>
         );
       },
@@ -72,14 +76,14 @@ const UserList = () => {
   return (
     <>
       <div className='flex-[4_4_0%] my-2 mr-6'>
-        <div className='flex items-center justify-between my-4'>
+        {/* <div className='flex items-center justify-between my-4'>
           <h1 className='font-semibold text-lg'>Product</h1>
           <Link to='/newuser'>
             <button className='w-20 border-none p-[5px] bg-green-600 text-white ronuded-[5px] text-base cursor-pointer'>
               Create
             </button>
           </Link>
-        </div>
+        </div> */}
         <Box sx={{ height: 500, width: '100%' }}>
           {isFetching ? (
             'Loading Data...'
@@ -100,4 +104,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default TransactionList;

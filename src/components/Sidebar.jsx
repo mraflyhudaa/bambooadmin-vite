@@ -27,14 +27,14 @@ const Sidebar = () => {
                 Home
               </li>
             </Link>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
+            {/* <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
               <Timeline className='mr-1 text-xl' />
               Analytics
             </li>
             <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
               <TrendingUp className='mr-1 text-xl' />
               Sales
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className='mb-[10px]'>
@@ -52,48 +52,16 @@ const Sidebar = () => {
                 Products
               </li>
             </Link>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <AttachMoney className='mr-1 text-xl' />
-              Transactions
-            </li>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
+            <Link to='/transactions'>
+              <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
+                <AttachMoney className='mr-1 text-xl' />
+                Transactions
+              </li>
+            </Link>
+            {/* <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
               <BarChart className='mr-1 text-xl' />
               Reports
-            </li>
-          </ul>
-        </div>
-        <div className='mb-[10px]'>
-          <h3 className='text-xs text-[rgb(187,186,186)]'>Notifications</h3>
-          <ul className='list-none p-1'>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <MailOutline className='mr-1 text-xl' />
-              Mail
-            </li>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <DynamicFeed className='mr-1 text-xl' />
-              Feedback
-            </li>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <ChatBubbleOutline className='mr-1 text-xl' />
-              Messages
-            </li>
-          </ul>
-        </div>
-        <div className='mb-[10px]'>
-          <h3 className='text-xs text-[rgb(187,186,186)]'>Staff</h3>
-          <ul className='list-none p-1'>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <WorkOutline className='mr-1 text-xl' />
-              Manage
-            </li>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <Timeline className='mr-1 text-xl' />
-              Analytics
-            </li>
-            <li className='p-1 cursor-pointer flex items-center rounded-xl active:bg-[rgb(240,240,255)] hover:bg-[rgb(240,240,255)]'>
-              <Report className='mr-1 text-xl' />
-              Reports
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

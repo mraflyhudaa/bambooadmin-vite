@@ -1,116 +1,125 @@
+import { CheckIcon } from '@heroicons/react/solid';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Input from '../components/Input';
+import { userRequest } from '../requestMethods';
+import { toast, ToastContainer } from 'react-toastify';
+
 const NewUser = () => {
+  const [inputs, setInputs] = useState({});
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+    // console.log(inputs);
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    await userRequest
+      .post('auth/adduser', inputs)
+      .then((res) => {
+        console.log(res.data);
+        // toast.success(res.data.message, {
+        //   position: 'top-right',
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   onClose: history.push('/users'),
+        // });
+        history.push('/users');
+      })
+      .catch((err) => {
+        // toast.error('error', {
+        //   position: 'top-right',
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
+        console.log(err);
+      });
+  };
+
   return (
-    <div className='flex-[4_4_0%]'>
-      <h1 className='newUserTitle'>New User</h1>
+    <div className='flex-[4_4_0%] my-4 mr-4'>
+      <h1 className='font-semibold text-lg'>New User</h1>
       <form className='flex flex-wrap'>
         <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Username
-          </label>
-          <input
-            className='h-5 p-[10px] border-[1px] border-solid border-gray-900 rounded-md'
+          <Input
+            htmlFor='username'
+            label='Username'
+            id='username'
+            name='username'
             type='text'
-            placeholder='john'
+            autoComplete='username'
+            onChange={handleChange}
           />
         </div>
         <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Full Name
-          </label>
-          <input
-            className='h-5 p-[10px] border-[1px] border-solid border-gray-900 rounded-md'
-            type='text'
-            placeholder='John Smith'
-          />
-        </div>
-        <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Email
-          </label>
-          <input
-            className='h-5 p-[10px] border-[1px] border-solid border-gray-900 rounded-md'
+          <Input
+            htmlFor='email'
+            label='Email'
+            id='email'
+            name='email'
             type='email'
-            placeholder='john@gmail.com'
+            autoComplete='email'
+            onChange={handleChange}
           />
         </div>
         <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Password
-          </label>
-          <input
-            className='h-5 p-[10px] border-[1px] border-solid border-gray-900 rounded-md'
+          <Input
+            htmlFor='password'
+            label='Password'
+            id='password'
+            name='password'
             type='password'
-            placeholder='password'
+            onChange={handleChange}
           />
         </div>
         <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Phone
+          <label
+            htmlFor='isAdmin'
+            className='block text-sm font-semibold text-black mt-4'>
+            Is Admin
           </label>
-          <input
-            className='h-5 p-[10px] border-[1px] border-solid border-gray-900 rounded-md'
-            type='text'
-            placeholder='+1 123 456 78'
-          />
-        </div>
-        <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Address
-          </label>
-          <input
-            className='h-5 p-[10px] border-[1px] border-solid border-gray-900 rounded-md'
-            type='text'
-            placeholder='New York | USA'
-          />
-        </div>
-        <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Gender
-          </label>
-          <div className='newUserGender'>
-            <input
-              className='mt-[15px]'
-              type='radio'
-              name='gender'
-              id='male'
-              value='male'
-            />
-            <label className='m-[10px] text-lg text-[#555]' for='male'>
-              Male
-            </label>
-            <input
-              className='mt-[15px]'
-              type='radio'
-              name='gender'
-              id='female'
-              value='female'
-            />
-            <label className='m-[10px] text-lg text-[#555]' for='female'>
-              Female
-            </label>
-            <input
-              className='mt-[15px]'
-              type='radio'
-              name='gender'
-              id='other'
-              value='other'
-            />
-            <label className='m-[10px] text-lg text-[#555]' for='other'>
-              Other
-            </label>
-          </div>
-        </div>
-        <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
-          <label className='mb-[10px] text-sm font-semibold text-[rgb(151, 150, 150)]'>
-            Active
-          </label>
-          <select className='h-10 rounded-md' name='active' id='active'>
-            <option value='yes'>Yes</option>
-            <option value='no'>No</option>
+          <select
+            className='form-select mt-2 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-green-500 focus:border-green-500 green:z-10 sm:text-sm'
+            name='isAdmin'
+            id='isAdmin'
+            onChange={handleChange}
+            required={true}
+            defaultValue=''>
+            <option value='' disabled>
+              Set priviledge
+            </option>
+            <option aria-required value='true'>
+              Yes
+            </option>
+            <option aria-required value='false'>
+              No
+            </option>
           </select>
         </div>
-        <button className='w-[200px] border-none bg-blue-900 text-white p-[7px_10px] font-semibold rounded-[10px] mt-8 cursor-pointer'>
-          Create
+        <button
+          type='button'
+          onClick={handleClick}
+          disabled={inputs.isAdmin == undefined ? true : false}
+          className=' w-[76%] flex justify-center py-2 px-4  border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-6'>
+          <CheckIcon
+            className='h-5 w-5 text-green-500 group-hover:text-green-400 '
+            aria-hidden='true'
+          />
+          Add Product
         </button>
       </form>
     </div>

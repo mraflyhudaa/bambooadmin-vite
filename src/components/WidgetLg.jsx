@@ -1,5 +1,28 @@
+import { useEffect, useState } from 'react';
+import { userRequest } from '../requestMethods';
+import { format } from 'timeago.js';
+
 const WidgetLg = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const getOrders = async () => {
+      await userRequest
+        .get('orders')
+        .then((res) => setOrders(res.data))
+        .catch((err) => console.log(err));
+    };
+    getOrders();
+  }, []);
+
   const Button = ({ status, type }) => {
+    if (type === 'approved') {
+      status = 'bg-[#e5faf2] text-[#3bb077]';
+    } else if (type === 'declined') {
+      status = 'bg-[#fff0f1] text-#d95087';
+    } else {
+      status = 'bg-[#ebf1fe] text-[#2a7ade]';
+    }
     return (
       <button className={'p-[5px_7px] border-none rounded-[10px] ' + status}>
         {type}
@@ -9,73 +32,30 @@ const WidgetLg = () => {
   return (
     <div className='flex-[2_2_0%] shadow-[0px_0px_15px_-10px_rgba(0,0,0,0.75)] p-5'>
       <h3 className='text-xl font-semibold'>Latest transactions</h3>
+
       <table className='w-full border-spacing-5'>
-        <tr className='widgetLgTr'>
-          <th className='text-left'>Customer</th>
-          <th className='text-left'>Date</th>
-          <th className='text-left'>Amount</th>
-          <th className='text-left'>Status</th>
-        </tr>
-        <tr className='widgetLgTr'>
-          <td className='flex items-center font-semibold'>
-            <img
-              src='https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-              alt=''
-              className='w-10 h-10 rounded-[50%] object-cover mr-2'
-            />
-            <span className='widgetLgName'>Susan Carol</span>
-          </td>
-          <td className='font-light'>2 Jun 2021</td>
-          <td className='font-light'>$122.00</td>
-          <td className='widgetLgStatus'>
-            <Button type='Approved' status='bg-[#e5faf2] text-[#3bb077]' />
-          </td>
-        </tr>
-        <tr className='widgetLgTr'>
-          <td className='flex items-center font-semibold'>
-            <img
-              src='https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-              alt=''
-              className='w-10 h-10 rounded-[50%] object-cover mr-2'
-            />
-            <span className='widgetLgName'>Susan Carol</span>
-          </td>
-          <td className='font-light'>2 Jun 2021</td>
-          <td className='font-light'>$122.00</td>
-          <td className='widgetLgStatus'>
-            <Button type='Declined' status='bg-[#fff0f1] text-[#d95087]' />
-          </td>
-        </tr>
-        <tr className='widgetLgTr'>
-          <td className='flex items-center font-semibold'>
-            <img
-              src='https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-              alt=''
-              className='w-10 h-10 rounded-[50%] object-cover mr-2'
-            />
-            <span className='widgetLgName'>Susan Carol</span>
-          </td>
-          <td className='font-light'>2 Jun 2021</td>
-          <td className='font-light'>$122.00</td>
-          <td className='widgetLgStatus'>
-            <Button type='Pending' status='bg-[#ebf1fe] text-[#2a7ade]' />
-          </td>
-        </tr>
-        <tr className='widgetLgTr'>
-          <td className='flex items-center font-semibold'>
-            <img
-              src='https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-              alt=''
-              className='w-10 h-10 rounded-[50%] object-cover mr-2'
-            />
-            <span className='widgetLgName'>Susan Carol</span>
-          </td>
-          <td className='font-light'>2 Jun 2021</td>
-          <td className='font-light'>$122.00</td>
-          <td className='widgetLgStatus'>
-            <Button type='Approved' status='bg-[#e5faf2] text-[#3bb077]' />
-          </td>
-        </tr>
+        <thead>
+          <tr className='widgetLgTr'>
+            <th className='text-left'>Customer</th>
+            <th className='text-left'>Date</th>
+            <th className='text-left'>Amount</th>
+            <th className='text-left'>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr className='widgetLgTr' key={order._id}>
+              <td className='flex items-center font-semibold'>
+                <span className='widgetLgName'>{order.userId}</span>
+              </td>
+              <td className='font-light'>{format(order.createdAt)}</td>
+              <td className='font-light'>Rp.{order.amount}</td>
+              <td className='widgetLgStatus'>
+                <Button type='approved' />
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
