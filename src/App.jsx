@@ -21,17 +21,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import TransactionList from './pages/TransactionList';
 
 function App() {
-  const admin = () => {
-    if (
-      JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
-        .currentUser.isAdmin
-    ) {
-      return JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
-        .currentUser.isAdmin;
-    } else {
-      return null;
-    }
-  };
+  let admin;
+  if (localStorage.getItem('persist:root') != null) {
+    admin = JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
+      .currentUser?.isAdmin;
+  }
   // console.log(
   //   JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
   //     .currentUser?.isAdmin

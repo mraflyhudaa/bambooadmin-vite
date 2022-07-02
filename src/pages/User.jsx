@@ -75,12 +75,12 @@ const User = () => {
           <div className='flex-1 p-5 shadow-[0px_0px_15px_-10px_rgba(0,0,0,0.75)]'>
             <div className='flex items-center'>
               <img
-                src='https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'
+                src=''
                 alt=''
                 className='w-10 h-10 rounded-[50%] object-cover'
               />
               <div className='flex flex-col ml-5'>
-                <span className='font-semibold'>Anna Becker</span>
+                <span className='font-semibold'>{data.username}</span>
               </div>
             </div>
             <div className='mt-5'>
@@ -160,7 +160,7 @@ const User = () => {
                 <div className='flex items-center'>
                   <img
                     className='w-[100px] h-[100px] rounded-[10px] object-cover mr-5'
-                    src='https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'
+                    src=''
                     alt=''
                   />
                   <label htmlFor='file'>
