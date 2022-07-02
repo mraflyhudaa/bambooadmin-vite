@@ -15,7 +15,7 @@ const Login = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     await login(dispatch, { email, password });
-    history.go(0);
+    history.push('/');
   };
 
   return (
