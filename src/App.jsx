@@ -29,7 +29,7 @@ function App() {
       return JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
         .currentUser.isAdmin;
     } else {
-      return '';
+      return null;
     }
   };
   // console.log(
