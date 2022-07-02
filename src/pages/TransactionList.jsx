@@ -51,26 +51,26 @@ const TransactionList = () => {
     { field: 'address', headerName: 'Address', width: 200 },
     { field: 'status', headerName: 'Status', width: 200 },
 
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={'/user/' + params.row._id}>
-              <button className='border-none rounded-md px-2 py-4 bg-green-600 text-white cursor-pointer mr-5'>
-                Edit
-              </button>
-            </Link>
-            {/* <DeleteOutline
-              className='fill-red-600'
-              onClick={() => handleDelete(params.row._id)}
-            /> */}
-          </>
-        );
-      },
-    },
+    // {
+    //   field: 'action',
+    //   headerName: 'Action',
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         <Link to={'/user/' + params.row._id}>
+    //           <button className='border-none rounded-md px-2 py-4 bg-green-600 text-white cursor-pointer mr-5'>
+    //             Edit
+    //           </button>
+    //         </Link>
+    //         {/* <DeleteOutline
+    //           className='fill-red-600'
+    //           onClick={() => handleDelete(params.row._id)}
+    //         /> */}
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   return (
