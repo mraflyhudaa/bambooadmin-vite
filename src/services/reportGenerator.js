@@ -10,15 +10,24 @@ const generatePDF = (tickets) => {
   const doc = new jsPDF();
 
   // define the columns we want and their titles
-  const tableColumn = ['Id', 'User', 'Total', 'Address', 'Status'];
+  const tableColumn = [
+    'Id',
+    'User',
+    'Products',
+    'Total',
+    'Address',
+    'Status',
+    'Date',
+  ];
   // define an empty array of rows
   const tableRows = [];
 
   // for each ticket pass all its data into an array
   tickets.forEach((ticket) => {
     const ticketData = [
-      ticket._id,
-      ticket.userId,
+      ticket.orderId,
+      ticket.name,
+      ticket.products,
       ticket.amount,
       ticket.address,
       ticket.status,
@@ -35,7 +44,7 @@ const generatePDF = (tickets) => {
   // we use a date string to generate our filename.
   const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
   // ticket title. and margin-top + margin-left
-  doc.text('Closed tickets within the last one month.', 14, 15);
+  doc.text('Success transaction within the last one month.', 14, 15);
   // we define the name of our PDF file.
   doc.save(`report_${dateStr}.pdf`);
 };

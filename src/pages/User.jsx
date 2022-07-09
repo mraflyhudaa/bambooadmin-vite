@@ -1,15 +1,9 @@
-import { CheckIcon, PencilIcon } from '@heroicons/react/solid';
-import {
-  CalendarToday,
-  LocationSearching,
-  MailOutline,
-  PermIdentity,
-  PhoneAndroid,
-  Publish,
-} from '@mui/icons-material';
+import { PencilIcon } from '@heroicons/react/solid';
+import { MailOutline, PermIdentity } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Input from '../components/Input';
 import { userRequest } from '../requestMethods';
 
@@ -54,9 +48,15 @@ const User = () => {
       .put(`users/${userId}`, inputs)
       .then((res) => {
         console.log(res.data);
+        setIsUpdating(false);
+        toast.success(res.data.message);
       })
       .catch((err) => console.log(err));
   };
+
+  if (isUpdating) {
+    return <Spinner />;
+  }
 
   return (
     <div className='flex-[4_4_0%] p-5'>
@@ -74,11 +74,6 @@ const User = () => {
         <div className='flex mt-5'>
           <div className='flex-1 p-5 shadow-[0px_0px_15px_-10px_rgba(0,0,0,0.75)]'>
             <div className='flex items-center'>
-              <img
-                src=''
-                alt=''
-                className='w-10 h-10 rounded-[50%] object-cover'
-              />
               <div className='flex flex-col ml-5'>
                 <span className='font-semibold'>{data.username}</span>
               </div>
@@ -112,17 +107,7 @@ const User = () => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className='flex flex-col mt-[10px]'>
-                  <Input
-                    htmlFor='fullName'
-                    label='Full Name'
-                    id='fullName'
-                    name='fullName'
-                    type='text'
-                    value=''
-                    onChange={handleChange}
-                  />
-                </div>
+
                 <div className='flex flex-col mt-[10px]'>
                   <Input
                     htmlFor='email'
@@ -147,26 +132,13 @@ const User = () => {
                     onChange={handleChange}
                     required={true}
                     defaultValue={data.isAdmin}>
-                    <option aria-required value={!data.isAdmin}>
+                    <option aria-required value='true'>
                       Yes
                     </option>
-                    <option aria-required value={data.isAdmin}>
+                    <option aria-required value='false'>
                       No
                     </option>
                   </select>
-                </div>
-              </div>
-              <div className='flex flex-col justify-between'>
-                <div className='flex items-center'>
-                  <img
-                    className='w-[100px] h-[100px] rounded-[10px] object-cover mr-5'
-                    src=''
-                    alt=''
-                  />
-                  <label htmlFor='file'>
-                    <Publish className='cursor-pointer' />
-                  </label>
-                  <input type='file' id='file' style={{ display: 'none' }} />
                 </div>
                 <button
                   type='button'
@@ -180,6 +152,7 @@ const User = () => {
                   Edit User Data
                 </button>
               </div>
+              <div className='flex flex-col justify-between'></div>
             </form>
           </div>
         </div>

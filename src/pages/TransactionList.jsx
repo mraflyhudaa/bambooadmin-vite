@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { userRequest } from '../requestMethods';
 import { Box } from '@mui/material';
+import generatePDF from '../services/reportGenerator';
 
 const TransactionList = () => {
   const [data, setData] = useState([]);
@@ -40,8 +41,10 @@ const TransactionList = () => {
       .catch((err) => console.log(err));
   };
 
+  const reportTransaction = data.filter((item) => item.status === 'success');
+
   const columns = [
-    { field: '_id', headerName: 'ID', width: 220 },
+    { field: 'orderId', headerName: 'ID', width: 220 },
     {
       field: 'userId',
       headerName: 'Customer ID',
@@ -50,40 +53,37 @@ const TransactionList = () => {
     { field: 'amount', headerName: 'Amount', width: 200 },
     { field: 'address', headerName: 'Address', width: 200 },
     { field: 'status', headerName: 'Status', width: 200 },
+    { field: 'createdAt', headerName: 'Time', width: 200 },
 
-    // {
-    //   field: 'action',
-    //   headerName: 'Action',
-    //   width: 150,
-    //   renderCell: (params) => {
-    //     return (
-    //       <>
-    //         <Link to={'/user/' + params.row._id}>
-    //           <button className='border-none rounded-md px-2 py-4 bg-green-600 text-white cursor-pointer mr-5'>
-    //             Edit
-    //           </button>
-    //         </Link>
-    //         {/* <DeleteOutline
-    //           className='fill-red-600'
-    //           onClick={() => handleDelete(params.row._id)}
-    //         /> */}
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={'/user/' + params.row._id}>
+              <button className='border-none rounded-md px-2 py-4 bg-green-600 text-white cursor-pointer mr-5'>
+                Edit
+              </button>
+            </Link>
+          </>
+        );
+      },
+    },
   ];
 
   return (
     <>
       <div className='flex-[4_4_0%] my-2 mr-6'>
-        {/* <div className='flex items-center justify-between my-4'>
-          <h1 className='font-semibold text-lg'>Product</h1>
-          <Link to='/newuser'>
-            <button className='w-20 border-none p-[5px] bg-green-600 text-white ronuded-[5px] text-base cursor-pointer'>
-              Create
-            </button>
-          </Link>
-        </div> */}
+        <div className='flex items-center justify-between my-4'>
+          <h1 className='font-semibold text-lg'>Transaction</h1>
+          <button
+            onClick={() => generatePDF(reportTransaction)}
+            className='w-20 border-none p-[5px] bg-green-600 text-white ronuded-[5px] text-base cursor-pointer'>
+            Report
+          </button>
+        </div>
         <Box sx={{ height: 500, width: '100%' }}>
           {isFetching ? (
             'Loading Data...'

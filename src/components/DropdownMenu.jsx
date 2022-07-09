@@ -14,7 +14,7 @@ const MenuDropdown = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     dispatch(logout(), clear());
-    history.go(0);
+    history.replace('/login');
   };
 
   return (

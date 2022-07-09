@@ -1,6 +1,6 @@
 import { CheckIcon, LockClosedIcon, SaveIcon } from '@heroicons/react/solid';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux/es/exports';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useHistory } from 'react-router-dom';
 import {
   getStorage,
@@ -8,9 +8,11 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
+import { toast } from 'react-toastify';
 import Input from '../components/Input';
 import app from '../firebaseConfig';
 import { addProduct } from '../redux/apiCalls';
+import { reset } from '../redux/productRedux';
 
 const NewProduct = () => {
   const [inputs, setInputs] = useState({});
@@ -18,15 +20,33 @@ const NewProduct = () => {
   const [cat, setCat] = useState([]);
   const [dimension, setDimension] = useState([]);
   const [price, setPrice] = useState([]);
+
+  const { isSuccess, error, isFetching, message } = useSelector(
+    (state) => state.product
+  );
+
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      history.push('/');
+    }
+
+    dispatch(reset());
+  }, [error, message, history, dispatch]);
 
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    console.log(inputs);
+    // console.log(inputs);
   };
+
   const handleCat = (e) => {
     setCat(e.target.value.split(','));
   };
@@ -97,7 +117,6 @@ const NewProduct = () => {
             price: price,
           };
           addProduct(product, dispatch);
-          history.push('/products');
         });
       }
     );

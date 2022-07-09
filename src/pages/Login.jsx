@@ -1,22 +1,67 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { LockClosedIcon } from '@heroicons/react/solid';
-
+import { useSelector } from 'react-redux/es/exports';
+import { toast } from 'react-toastify';
 import Input from '../components/Input';
 import { login } from '../redux/apiCalls';
 import { Redirect, useHistory } from 'react-router-dom';
+import { reset } from '../redux/userRedux';
+import Spinner from '../components/Spinner';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = formData;
+
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { currentUser, isSuccess, isFetching, error, message } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    if (error) {
+      toast.error(message);
+    }
+
+    if (currentUser || isSuccess) {
+      history.replace('/');
+    }
+
+    dispatch(reset());
+  }, [currentUser, error, message, history, dispatch]);
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const userData = {
+      email,
+      password,
+    };
+
+    login(dispatch, userData);
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
-    await login(dispatch, { email, password });
-    history.push('/');
+    await login(dispatch, { email, password }).then(() => history.go(0));
   };
+
+  if (isFetching) {
+    return <Spinner />;
+  }
 
   return (
     <div className='min-h-full h-[100vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -31,7 +76,7 @@ const Login = () => {
             Sign in to your account
           </h2>
         </div>
-        <form className='mt-8 space-y-6' onSubmit={handleClick}>
+        <form className='mt-8 space-y-6' onSubmit={onSubmit}>
           <input type='hidden' name='remember' defaultValue='true' />
           <div className='rounded-md shadow-sm -space-y-px'>
             <Input
@@ -41,7 +86,7 @@ const Login = () => {
               name='email'
               type='email'
               autoComplete='email'
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={onChange}
             />
             <Input
               htmlFor='password'
@@ -49,7 +94,7 @@ const Login = () => {
               id='password'
               name='password'
               type='password'
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={onChange}
             />
           </div>
 

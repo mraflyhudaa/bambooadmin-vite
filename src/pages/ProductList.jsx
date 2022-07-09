@@ -6,19 +6,48 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, getProducts } from '../redux/apiCalls';
 import { Box } from '@mui/material';
+import { userRequest } from '../requestMethods';
 
 const ProductList = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products);
+  // const products = useSelector((state) => state.product.products);
   const [isFetching, setIsFetching] = useState(false);
+  const [data, setData] = useState([]);
+
+  // useEffect(() => {
+  //   setIsFetching(true);
+  //   getProducts(dispatch).then(setIsFetching(false));
+  // }, [dispatch]);
+
+  // const handleDelete = (id) => {
+  //   deleteProduct(id, dispatch);
+  // };
 
   useEffect(() => {
-    setIsFetching(true);
-    getProducts(dispatch).then(setIsFetching(false));
-  }, [dispatch]);
+    const getUsers = async () => {
+      setIsFetching(true);
+      await userRequest
+        .get('/products/')
+        .then((res) => {
+          setData(res.data.data);
+          setIsFetching(false);
+          // console.log(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsFetching(false);
+        });
+    };
+    getUsers();
+  }, []);
 
-  const handleDelete = (id) => {
-    deleteProduct(id, dispatch);
+  const handleDelete = async (id) => {
+    await userRequest
+      .delete(`/products/${id}`)
+      .then((res) => {
+        toast.success('data deleted!');
+      })
+      .catch((err) => console.log(err));
   };
 
   const columns = [
@@ -81,7 +110,7 @@ const ProductList = () => {
         </div>
         <Box sx={{ height: 500, width: '100%' }}>
           <DataGrid
-            rows={products}
+            rows={data}
             disableSelectionOnClick
             columns={columns}
             getRowId={(row) => row._id}

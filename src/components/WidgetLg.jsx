@@ -43,7 +43,7 @@ const WidgetLg = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {orders.slice(-7).map((order) => (
             <tr className='widgetLgTr' key={order._id}>
               <td className='flex items-center font-semibold'>
                 <span className='widgetLgName'>{order.userId}</span>
