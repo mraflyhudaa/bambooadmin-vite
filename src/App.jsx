@@ -46,41 +46,77 @@ function App() {
           <Route path='/login'>
             <Login />
           </Route>
-          {isAdmin && (
-            <>
-              <Topbar />
-              <div className='flex mt-[10px]'>
-                <Sidebar />
-                <PrivateRoute exact path='/'>
-                  <Home />
-                </PrivateRoute>
-                <PrivateRoute path='/users'>
-                  <UserList />
-                </PrivateRoute>
-                <PrivateRoute path='/user/:userId'>
-                  <User />
-                </PrivateRoute>
-                <PrivateRoute path='/newuser'>
-                  <NewUser />
-                </PrivateRoute>
-                <PrivateRoute path='/products'>
-                  <ProductList />
-                </PrivateRoute>
-                <PrivateRoute path='/product/:productId'>
-                  <Product />
-                </PrivateRoute>
-                <PrivateRoute path='/newproduct'>
-                  <NewProduct />
-                </PrivateRoute>
-                <PrivateRoute path='/transactions'>
-                  <TransactionList />
-                </PrivateRoute>
-                <PrivateRoute path='/transaction/:transactionId'>
-                  <Transaction />
-                </PrivateRoute>
-              </div>
-            </>
-          )}
+
+          <PrivateRoute exact path='/'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+              <Home />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/users'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <UserList />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/user/:userId'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <User />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/newuser'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <NewUser />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/products'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <ProductList />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/product/:productId'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <Product />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/newproduct'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <NewProduct />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/transactions'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+
+              <TransactionList />
+            </div>
+          </PrivateRoute>
+          <PrivateRoute path='/transaction/:transactionId'>
+            <Topbar />
+            <div className='flex mt-[10px]'>
+              <Sidebar />
+              <Transaction />
+            </div>
+          </PrivateRoute>
         </Switch>
       </Router>
       <ToastContainer
