@@ -7,7 +7,9 @@ import { format } from 'date-fns';
 // define a generatePDF function that accepts a tickets argument
 const generatePDF = (tickets) => {
   // initialize jsPDF
-  const doc = new jsPDF();
+  const doc = new jsPDF({
+    orientation: 'landscape'
+  });
 
   // define the columns we want and their titles
   const tableColumn = [
@@ -27,7 +29,7 @@ const generatePDF = (tickets) => {
     const ticketData = [
       ticket.orderId,
       ticket.name,
-      ticket.products,
+      ticket.products.map((item) => item.productName + '/' + item.dimension + '/' + item.quantity),
       ticket.amount,
       ticket.address,
       ticket.status,
@@ -39,12 +41,14 @@ const generatePDF = (tickets) => {
   });
 
   // startY is basically margin-top
-  doc.autoTable(tableColumn, tableRows, { startY: 20 });
+  doc.autoTable(tableColumn, tableRows, { startY: 40 });
   const date = Date().split(' ');
   // we use a date string to generate our filename.
   const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
   // ticket title. and margin-top + margin-left
-  doc.text('Success transaction within the last one month.', 14, 15);
+  doc.setPage(1)
+  doc.text('PT. Bamboo Craft Indonesia', 14, 15)
+  doc.text('Success transaction within the last one month.', 14, 30);
   // we define the name of our PDF file.
   doc.save(`report_${dateStr}.pdf`);
 };
