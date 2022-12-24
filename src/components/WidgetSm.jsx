@@ -1,5 +1,6 @@
 import { Visibility } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { userRequest } from '../requestMethods';
 
 const WidgetSm = () => {
@@ -32,10 +33,13 @@ const WidgetSm = () => {
             <div className='flex flex-col'>
               <span className='font-semibold'>{user.username}</span>
             </div>
-            <button className='flex items-center border-none rounded-xl p-[7px_10px] bg-[#eeeef7] text-[#555] cursor-pointer'>
+            <Link
+              to={`user/${user._id}`}
+              className='flex items-center border-none rounded-xl p-[7px_10px] bg-[#eeeef7] text-[#555] cursor-pointer'
+            >
               <Visibility className='!text-base mr-[5px]' />
               Display
-            </button>
+            </Link>
           </li>
         ))}
       </ul>
