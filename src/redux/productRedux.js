@@ -87,7 +87,7 @@ export const productSlice = createSlice({
       state.message = action.payload;
     },
     clear: (state) => {
-      state.products = [];
+      state.products = null;
     },
     reset: (state) => {
       state.isFetching = false;
