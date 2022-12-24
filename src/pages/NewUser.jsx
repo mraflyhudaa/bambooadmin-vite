@@ -24,16 +24,7 @@ const NewUser = () => {
       .post('auth/adduser', inputs)
       .then((res) => {
         console.log(res.data);
-        // toast.success(res.data.message, {
-        //   position: 'top-right',
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   onClose: history.push('/users'),
-        // });
+        toast.success(res.data.message);
         history.push('/users');
       })
       .catch((err) => {
@@ -52,8 +43,8 @@ const NewUser = () => {
 
   return (
     <div className='flex-[4_4_0%] my-4 mr-4'>
-      <h1 className='font-semibold text-lg'>New User</h1>
-      <form className='flex flex-wrap'>
+      <h1 className='font-semibold text-2xl'>New User</h1>
+      <form className='flex flex-wrap w-[80%]'>
         <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
           <Input
             htmlFor='username'
@@ -89,7 +80,8 @@ const NewUser = () => {
         <div className='w-[400px] flex flex-col mt-[10px] mr-5'>
           <label
             htmlFor='isAdmin'
-            className='block text-sm font-semibold text-black mt-4'>
+            className='block text-sm font-semibold text-black mt-4'
+          >
             Is Admin
           </label>
           <select
@@ -98,7 +90,8 @@ const NewUser = () => {
             id='isAdmin'
             onChange={handleChange}
             required={true}
-            defaultValue=''>
+            defaultValue=''
+          >
             <option value='' disabled>
               Set priviledge
             </option>
@@ -110,17 +103,20 @@ const NewUser = () => {
             </option>
           </select>
         </div>
-        <button
-          type='button'
-          onClick={handleClick}
-          disabled={inputs.isAdmin == undefined ? true : false}
-          className=' w-[76%] flex justify-center py-2 px-4  border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-6'>
-          <CheckIcon
-            className='h-5 w-5 text-green-500 group-hover:text-green-400 '
-            aria-hidden='true'
-          />
-          Add Product
-        </button>
+        <div className='w-full lg:w-[820px] flex flex-col mt-[10px] mr-5'>
+          <button
+            type='button'
+            onClick={handleClick}
+            disabled={inputs.isAdmin == undefined ? true : false}
+            className=' w-full flex justify-center py-2 px-4  border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-6'
+          >
+            <CheckIcon
+              className='h-5 w-5 text-green-500 group-hover:text-green-400 '
+              aria-hidden='true'
+            />
+            Add User
+          </button>
+        </div>
       </form>
     </div>
   );

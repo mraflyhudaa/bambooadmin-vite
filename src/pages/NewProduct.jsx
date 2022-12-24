@@ -35,6 +35,7 @@ const NewProduct = () => {
 
     if (isSuccess) {
       history.push('/');
+      toast.success(message);
     }
 
     dispatch(reset());
@@ -175,7 +176,8 @@ const NewProduct = () => {
         <div className=' flex flex-col mb-[10px]'>
           <label
             htmlFor='inStock'
-            className='block text-sm font-semibold text-black mt-4'>
+            className='block text-sm font-semibold text-black mt-4'
+          >
             In Stock
           </label>
           <select
@@ -184,7 +186,8 @@ const NewProduct = () => {
             id='inStock'
             onChange={handleChange}
             required={true}
-            defaultValue=''>
+            defaultValue=''
+          >
             <option value='' disabled>
               Set products stock
             </option>
@@ -199,7 +202,8 @@ const NewProduct = () => {
         <div className=' flex flex-col mb-[10px]'>
           <label
             htmlFor='desc'
-            className='block text-sm font-semibold text-black mt-4'>
+            className='block text-sm font-semibold text-black mt-4'
+          >
             Description
           </label>
           <textarea
@@ -223,7 +227,8 @@ const NewProduct = () => {
           type='button'
           onClick={handleClick}
           disabled={inputs.inStock == undefined ? true : false}
-          className=' w-full flex justify-center py-2 px-4  border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-6'>
+          className=' w-full flex justify-center py-2 px-4  border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-6'
+        >
           <CheckIcon
             className='h-5 w-5 text-green-500 group-hover:text-green-400 '
             aria-hidden='true'
