@@ -16,7 +16,7 @@ const WidgetLg = () => {
   }, []);
 
   const Button = ({ status, type }) => {
-    if (type === 'approved') {
+    if (type === 'capture' || type === 'settlement') {
       status = 'bg-[#e5faf2] text-[#3bb077]';
     } else if (type === 'declined') {
       status = 'bg-[#fff0f1] text-#d95087';
@@ -51,7 +51,7 @@ const WidgetLg = () => {
               <td className='font-light'>{format(order.createdAt)}</td>
               <td className='font-light'>Rp.{order.amount}</td>
               <td className='widgetLgStatus'>
-                <Button type='approved' />
+                <Button type={order.status} />
               </td>
             </tr>
           ))}
