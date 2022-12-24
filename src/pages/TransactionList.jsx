@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { userRequest } from '../requestMethods';
 import { Box } from '@mui/material';
 import generatePDF from '../services/reportGenerator';
+import Spinner from '../components/Spinner';
 
 const TransactionList = () => {
   const [data, setData] = useState([]);
@@ -41,7 +42,13 @@ const TransactionList = () => {
       .catch((err) => console.log(err));
   };
 
-  const reportTransaction = data.filter((item) => item.status === 'success');
+  if (isFetching) {
+    return <Spinner />;
+  }
+
+  const reportTransaction = data.filter(
+    (item) => item.status === 'capture' || item.status === 'settlement'
+  );
 
   const columns = [
     { field: 'orderId', headerName: 'ID', width: 220 },
@@ -55,22 +62,22 @@ const TransactionList = () => {
     { field: 'status', headerName: 'Status', width: 200 },
     { field: 'createdAt', headerName: 'Time', width: 200 },
 
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={'/user/' + params.row._id}>
-              <button className='border-none rounded-md px-2 py-4 bg-green-600 text-white cursor-pointer mr-5'>
-                Edit
-              </button>
-            </Link>
-          </>
-        );
-      },
-    },
+    // {
+    //   field: 'action',
+    //   headerName: 'Action',
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         <Link to={'/transaction/' + params.row._id}>
+    //           <button className='border-none rounded-[10px] p-[5px_10px] bg-green-600 hover:bg-green-500 text-white cursor-pointer mr-5'>
+    //             View
+    //           </button>
+    //         </Link>
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   return (
@@ -80,24 +87,21 @@ const TransactionList = () => {
           <h1 className='font-semibold text-lg'>Transaction</h1>
           <button
             onClick={() => generatePDF(reportTransaction)}
-            className='w-20 border-none p-[5px] bg-green-600 text-white ronuded-[5px] text-base cursor-pointer'>
+            className='w-20 border-none p-[5px] bg-green-600 rounded-[5px] cursor-pointer text-white text-base'
+          >
             Report
           </button>
         </div>
         <Box sx={{ height: 500, width: '100%' }}>
-          {isFetching ? (
-            'Loading Data...'
-          ) : (
-            <DataGrid
-              rows={data}
-              disableSelectionOnClick
-              columns={columns}
-              getRowId={(row) => row._id}
-              pageSize={8}
-              checkboxSelection
-              rowsPerPageOptions={[8]}
-            />
-          )}
+          <DataGrid
+            rows={data}
+            disableSelectionOnClick
+            columns={columns}
+            getRowId={(row) => row._id}
+            pageSize={8}
+            checkboxSelection
+            rowsPerPageOptions={[8]}
+          />
         </Box>
       </div>
     </>
